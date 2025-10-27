@@ -24,11 +24,11 @@ async function main() {
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
     const templateHtml = isProduction
-        ? await fs.readFile("/app/frontend/dist/client/index.html", "utf-8")
+        ? await fs.readFile("./dist/client/index.html", "utf-8")
         : "";
 
     const ssrManifest = isProduction
-        ? await fs.readFile("/app/frontend/dist/client/.vite/ssr-manifest.json", "utf-8")
+        ? await fs.readFile("./dist/client/.vite/ssr-manifest.json", "utf-8")
         : undefined;
 
     const app = express();
@@ -74,7 +74,7 @@ async function main() {
                 render = (await vite.ssrLoadModule("/src/entry.server.tsx")).render;
             } else {
                 template = templateHtml;
-                render = (await dynamicImport(path.join(__dirname, "/app/frontend/dist/server/entry.server.js"))).render;
+                render = (await dynamicImport(path.join(__dirname, "./dist/server/entry.server.js"))).render;
             }
 
             const { appHtml, dehydratedState, helmetContext } = await render(
